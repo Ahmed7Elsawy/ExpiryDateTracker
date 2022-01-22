@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="product"
+            type="com.elsawy.expirydatetracker.data.Product"
+            />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#F1EDED"
+        android:layout_marginTop="10dp"
+        android:elevation="4dp">
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{product.name}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/product_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{product.category}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/product_name"
+            app:layout_constraintBottom_toBottomOf="@id/product_name" />
+
+        <TextView
+            android:id="@+id/product_expireDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{product.expiry_date.toString()}"
+            app:layout_constraintTop_toBottomOf="@id/product_name"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
