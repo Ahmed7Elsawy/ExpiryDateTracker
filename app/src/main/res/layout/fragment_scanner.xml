@@ -1,15 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.scanner.ScannerFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.elsawy.expirydatetracker.ui.scanner.ScannerViewModel" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="40sp"
-        android:text="Scanner"/>
+        tools:context=".ui.scanner.ScannerFragment">
 
-</FrameLayout>
+        <SurfaceView
+            android:id="@+id/cameraSurfaceView"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/add_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#DBD3D3"
+            android:padding="10dp"
+            android:visibility="@{viewModel.isNew ? View.VISIBLE : View.GONE }">
+
+            <TextView
+                android:id="@+id/title_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This product doesn't exist, add it now"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/name_add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:hint="name"
+                android:text="@={viewModel.name}"
+                android:inputType="text"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/category_add"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_add" />
+
+            <EditText
+                android:id="@+id/category_add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:hint="category"
+                android:text="@={viewModel.category}"
+                android:inputType="text"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/name_add"
+                app:layout_constraintTop_toBottomOf="@+id/title_add" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Expire date"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/datePicker_add"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/datePicker_add" />
+
+            <DatePicker
+                android:id="@+id/datePicker_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:year="@={viewModel.expireYear}"
+                android:month="@={viewModel.expireMonth}"
+                android:day="@={viewModel.expireDay}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name_add" />
+<!--            android:onDateChanged="@{(v, year, month, day) -> viewModel.onDateChanged(year, month, day)}"-->
+
+            <Button
+                android:id="@+id/add_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="add"
+                android:onClick="@{() -> viewModel.onAddClick()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/datePicker_add" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/show_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#DBD3D3"
+            android:padding="10dp"
+            android:visibility="@{viewModel.isExist ? View.VISIBLE : View.GONE }">
+
+            <TextView
+                android:id="@+id/title_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This product is exist"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name_header_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="name:"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_show" />
+
+            <TextView
+                android:id="@+id/name_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{viewModel.product.name}"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/name_header_show"
+                app:layout_constraintTop_toBottomOf="@+id/title_show" />
+
+            <TextView
+                android:id="@+id/category_header_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category:"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name_header_show" />
+
+            <TextView
+                android:id="@+id/category_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{viewModel.product.category}"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/category_header_show"
+                app:layout_constraintTop_toBottomOf="@+id/name_header_show" />
+
+            <TextView
+                android:id="@+id/expire_header_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expire date:"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/category_header_show" />
+
+            <TextView
+                android:id="@+id/expire_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{viewModel.product.expiry_date.toString()}"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/expire_header_show"
+                app:layout_constraintTop_toBottomOf="@+id/category_header_show" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>
