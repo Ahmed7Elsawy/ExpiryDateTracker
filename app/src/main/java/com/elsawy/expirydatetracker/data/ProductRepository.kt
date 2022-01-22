@@ -12,6 +12,6 @@ class ProductRepository(private val productDao: ProductDao) {
    suspend fun getExpiredProducts(): Flow<List<Product>> =
       productDao.getExpiredProducts()
 
-   suspend fun getProductByBarCode(barcode: String): Flow<Product> =
+   suspend fun getProductByBarCode(barcode: String): Flow<Product?> =
       productDao.getProductByBarCode(barcode)
 }

@@ -21,6 +21,6 @@ interface ProductDao {
    fun getExpiredProducts(currentDate:Date=Date(System.currentTimeMillis())): Flow<List<Product>>
 
    @Query("SELECT * FROM products where barCode = :barcode")
-   fun getProductByBarCode(barcode: String): Flow<Product>
+   fun getProductByBarCode(barcode: String): Flow<Product?>
 
 }
