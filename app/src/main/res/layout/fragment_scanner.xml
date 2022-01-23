@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
+        <import type="com.elsawy.expirydatetracker.utils.DateUtils" />
+
         <variable
             name="viewModel"
             type="com.elsawy.expirydatetracker.ui.scanner.ScannerViewModel" />
@@ -27,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_margin="10dp"
             android:background="#DBD3D3"
             android:padding="10dp"
             android:visibility="@{viewModel.isNew ? View.VISIBLE : View.GONE }">
@@ -49,8 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:hint="name"
-                android:text="@={viewModel.name}"
                 android:inputType="text"
+                android:text="@={viewModel.name}"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/category_add"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,8 +67,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:hint="category"
-                android:text="@={viewModel.category}"
                 android:inputType="text"
+                android:text="@={viewModel.category}"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/name_add"
@@ -86,20 +91,19 @@
                 android:layout_height="wrap_content"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
-                android:year="@={viewModel.expireYear}"
-                android:month="@={viewModel.expireMonth}"
                 android:day="@={viewModel.expireDay}"
+                android:month="@={viewModel.expireMonth}"
+                android:year="@={viewModel.expireYear}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/name_add" />
-<!--            android:onDateChanged="@{(v, year, month, day) -> viewModel.onDateChanged(year, month, day)}"-->
 
             <Button
                 android:id="@+id/add_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="add"
                 android:onClick="@{() -> viewModel.onAddClick()}"
+                android:text="add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/datePicker_add" />
 
@@ -110,6 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_margin="10dp"
             android:background="#DBD3D3"
             android:padding="10dp"
             android:visibility="@{viewModel.isExist ? View.VISIBLE : View.GONE }">
@@ -181,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@{viewModel.product.expiry_date.toString()}"
+                android:text="@{viewModel.product != null ? DateUtils.dateToString(viewModel.product.expiry_date) : ``}"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/expire_header_show"
                 app:layout_constraintTop_toBottomOf="@+id/category_header_show" />

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.elsawy.expirydatetracker.utils.DateUtils"/>
         <variable
             name="product"
             type="com.elsawy.expirydatetracker.data.Product"
@@ -40,7 +41,7 @@
             android:id="@+id/product_expireDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{product.expiry_date.toString()}"
+            android:text="@{DateUtils.dateToString(product.expiry_date)}"
             app:layout_constraintTop_toBottomOf="@id/product_name"
             app:layout_constraintStart_toStartOf="parent" />
 
