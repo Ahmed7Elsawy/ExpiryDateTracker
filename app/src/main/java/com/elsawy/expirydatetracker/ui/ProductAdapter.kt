@@ -52,7 +52,7 @@ private class ProductDiffCallback : DiffUtil.ItemCallback<Product>() {
    }
 
    override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
-      return oldItem == oldItem
+      return oldItem == newItem
    }
 
 }

@@ -20,8 +20,9 @@
         android:padding="10dp"
         android:background="#F1EDED"
         android:layout_marginTop="10dp"
-        android:onLongClick="@{() -> !DateUtils.isLessThanOneDay(product.expiry_date)?longClickListner.onLongClick(product) : false }"
+        android:onLongClick="@{() -> longClickListner.onLongClick(product)}"
         android:elevation="4dp">
+<!--        android:onLongClick="@{() -> !DateUtils.isLessThanOneDay(product.expiry_date)?longClickListner.onLongClick(product) : false }"-->
 
         <TextView
             android:id="@+id/product_name"

@@ -24,11 +24,11 @@ class HomeViewModel(
    suspend fun getUnexpiredProducts() = productRepository.getUnExpiredProducts()
 
    fun updateProductDate(product: Product, hours: Long) {
-      product.expiry_date = getDateForNextHours(hours)
+      val newProduct = product.copy(expiry_date = getDateForNextHours(hours))
       viewModelScope.launch(Dispatchers.IO) {
-         productRepository.insertProduct(product)
+         productRepository.insertProduct(newProduct)
       }
-      scheduleReminder(hours, product.name)
+      scheduleReminder(hours, newProduct.name)
    }
 
    private fun scheduleReminder(
