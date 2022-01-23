@@ -16,7 +16,6 @@ object DateUtils {
       }
 
       if (isLessThanOneDay(date)) {
-         val remainHours = getRemainHours(date)
          return "less than ${getRemainHours(date)} hours"
       }
 
