@@ -12,6 +12,7 @@ import com.elsawy.expirydatetracker.R
 import com.elsawy.expirydatetracker.databinding.FragmentExpiredBinding
 import com.elsawy.expirydatetracker.databinding.FragmentHomeBinding
 import com.elsawy.expirydatetracker.ui.ProductAdapter
+import com.elsawy.expirydatetracker.ui.ProductListener
 import com.elsawy.expirydatetracker.ui.scanner.ScannerViewModel
 import com.elsawy.expirydatetracker.ui.scanner.ScannerViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
@@ -21,10 +22,11 @@ class HomeFragment : Fragment() {
 
    private var _binding: FragmentHomeBinding? = null
    private val binding get() = _binding!!
-   private val adapter by lazy { ProductAdapter() }
+   private lateinit var adapter: ProductAdapter
 
    private val viewModel: HomeViewModel by viewModels {
-      HomeViewModelFactory((requireContext().applicationContext as BaseApplication).productRepository)
+      HomeViewModelFactory(requireActivity().application,
+         (requireContext().applicationContext as BaseApplication).productRepository)
    }
 
    override fun onCreateView(
@@ -33,6 +35,13 @@ class HomeFragment : Fragment() {
    ): View? {
       _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+      adapter = ProductAdapter(
+         ProductListener { product ->
+            val dialog = ChangeDateDialogFragment(product)
+            dialog.show(parentFragmentManager, "ChangeDateDialogFragment")
+            true
+         }
+      )
       binding.unexpiredList.adapter = adapter
 
       subscribeUi()

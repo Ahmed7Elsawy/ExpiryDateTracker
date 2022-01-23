@@ -11,15 +11,19 @@ object DateUtils {
    @JvmStatic
    fun dateToString(date: Date): String {
 
-      if (isPastDate(date)) {
+      if (isExpiredDate(date)) {
          return "expired at ${formatTheDate(date)}"
       }
-
       if (isLessThanOneDay(date)) {
          return "less than ${getRemainHours(date)} hours"
       }
-
       return "expiry date ${formatTheDate(date)}"
+   }
+
+   @JvmStatic
+   fun isLessThanOneDay(date: Date): Boolean {
+      val currentDate = System.currentTimeMillis()
+      return DAY_MILLI_SECONDS >= date.time - currentDate
    }
 
    private fun formatTheDate(date: Date): String {
@@ -32,13 +36,14 @@ object DateUtils {
       return (date.time - currentDate) / HOUR_MILLI_SECONDS + 1
    }
 
-   private fun isPastDate(date: Date): Boolean {
+   private fun isExpiredDate(date: Date): Boolean {
       val currentDate = System.currentTimeMillis()
       return currentDate > date.time
    }
 
-   private fun isLessThanOneDay(date: Date): Boolean {
-      val currentDate = System.currentTimeMillis()
-      return DAY_MILLI_SECONDS >= date.time - currentDate
+   fun getDateForNextHours(hours: Long): Date {
+      val time = System.currentTimeMillis() + hours * HOUR_MILLI_SECONDS
+      return Date(time)
    }
+
 }

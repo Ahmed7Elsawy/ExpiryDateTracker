@@ -10,9 +10,10 @@ import com.elsawy.expirydatetracker.R
 import com.elsawy.expirydatetracker.data.Product
 import com.elsawy.expirydatetracker.databinding.ProductItemBinding
 
-class ProductAdapter : ListAdapter<Product, ProductAdapter.ViewHolder>(
-   ProductDiffCallback()
-) {
+class ProductAdapter(private val longClickListener: ProductListener = ProductListener { false }) :
+   ListAdapter<Product, ProductAdapter.ViewHolder>(
+      ProductDiffCallback()
+   ) {
    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
       return ViewHolder(
          DataBindingUtil.inflate(
@@ -25,19 +26,24 @@ class ProductAdapter : ListAdapter<Product, ProductAdapter.ViewHolder>(
    }
 
    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-      holder.bind(getItem(position))
+      holder.bind(longClickListener, getItem(position))
    }
 
    class ViewHolder(
       private val binding: ProductItemBinding,
    ) : RecyclerView.ViewHolder(binding.root) {
-      fun bind(currentProduct: Product) {
+      fun bind(longClickListener: ProductListener, currentProduct: Product) {
          with(binding) {
+            longClickListner = longClickListener
             product = currentProduct
             executePendingBindings()
          }
       }
    }
+}
+
+class ProductListener(val longClickListener: (product: Product) -> Boolean) {
+   fun onLongClick(product: Product) = longClickListener(product)
 }
 
 private class ProductDiffCallback : DiffUtil.ItemCallback<Product>() {

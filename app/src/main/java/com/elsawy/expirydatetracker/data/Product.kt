@@ -9,5 +9,5 @@ data class Product(
    @PrimaryKey val barCode: String,
    val name: String,
    val category: String,
-   val expiry_date: Date,
+   var expiry_date: Date,
 )
