@@ -1,16 +1,15 @@
 package com.elsawy.expirydatetracker
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
-import com.elsawy.expirydatetracker.data.ProductDao
 import com.elsawy.expirydatetracker.data.ProductDatabase
 import com.elsawy.expirydatetracker.data.ProductRepository
 import kotlinx.coroutines.runBlocking
 
 object ServiceLocator {
 
+   private val lock = Any()
    private var database: ProductDatabase? = null
 
    @Volatile
@@ -38,6 +37,21 @@ object ServiceLocator {
       ).build()
       database = result
       return result
+   }
+
+
+   @VisibleForTesting
+   fun resetRepository() {
+      synchronized(lock) {
+
+         // Clear all data to avoid test pollution.
+         database?.apply {
+            clearAllTables()
+            close()
+         }
+         database = null
+         productsRepository = null
+      }
    }
 
 }
