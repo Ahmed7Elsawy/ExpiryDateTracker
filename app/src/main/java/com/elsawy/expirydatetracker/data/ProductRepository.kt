@@ -14,4 +14,6 @@ class ProductRepository(private val productDao: ProductDao) {
 
    suspend fun getProductByBarCode(barcode: String): Flow<Product?> =
       productDao.getProductByBarCode(barcode)
+
+   suspend fun deleteAllProducts() = productDao.deleteAllProducts()
 }

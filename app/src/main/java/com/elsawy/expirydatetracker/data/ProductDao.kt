@@ -23,4 +23,6 @@ interface ProductDao {
    @Query("SELECT * FROM products where barCode = :barcode")
    fun getProductByBarCode(barcode: String): Flow<Product?>
 
+   @Query("DELETE from products")
+   fun deleteAllProducts()
 }
