@@ -16,12 +16,3 @@ A. 3 screens (Home, Barcode Scanner, and Expired Items screen).
 https://user-images.githubusercontent.com/32717670/156940771-81eaeb94-56cc-4b18-9b5f-5f6638515087.mp4
 
 
-
-
-
-
-
-
-
-
-https://studio.youtube.com/video/fQWuLoCO7dE/edit
